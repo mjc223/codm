@@ -4,6 +4,7 @@
 #include "simple_logger.h"
 
 #include "codm_entity.h"
+#include "codm_input.h"
 void enemy_think(Entity *self);
 
 int main(int argc, char * argv[])
@@ -73,6 +74,8 @@ int main(int argc, char * argv[])
             entity_draw_all();
             entity_think_all();
             entity_update_all();
+
+            user_input_update();
 
             //UI elements last
             gf2d_sprite_draw(
