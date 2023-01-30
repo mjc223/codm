@@ -54,6 +54,9 @@ dkms.conf
 #this program's executable
 gf2d
 
+#visual studio code nonsense
+.vscode/
+
 #logs
 *.log
 
