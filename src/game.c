@@ -75,9 +75,11 @@ int main(int argc, char * argv[])
         // all drawing should happen betweem clear_screen and next_frame
             //backgrounds drawn first
             gf2d_sprite_draw_image(sprite,vector2d(0,0));
+
             entity_draw_all();
             entity_think_all();
             entity_update_all();
+
             //UI elements last
             gf2d_sprite_draw(
                 mouse,
@@ -101,7 +103,18 @@ int main(int argc, char * argv[])
 void enemy_think(Entity *self)
 {
     if(!self) return;
-    self->velocity.x = 0;
-    self->velocity.y = 0.1;
+
+    float speed = gfc_random() * 2 + 1;
+    
+    if(self->position.x >= 500) 
+        self->velocity.x = -1 * speed;
+    else if (self->position.x <= 0)
+        self->velocity.x = 1 * speed;
+    
+    if(self->position.y >= 300) 
+        self->velocity.y = -1 * speed;
+    else if (self->position.y <= 0)
+        self->velocity.y = 1 * speed;
+    
 }
 /*eol@eof*/
