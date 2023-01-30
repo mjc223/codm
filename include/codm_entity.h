@@ -1,0 +1,73 @@
+#ifndef __CODM_ENTITY_H__
+#define __CODM_ENTITY_H__
+
+#include "gfc_types.h"
+#include "gfc_vector.h"
+#include "gf2d_sprite.h"
+
+typedef struct Entity_S
+{
+    Bool _inuse;
+    int id;
+    float frame;
+    Sprite *sprite;
+    Vector2D position;
+    Vector2D velocity;
+    Vector2D acceleration;
+    void (*think) (struct Entity_S *self)
+}Entity;
+
+/**
+ * @brief initialize internal manager for entity system
+ * automatically queue up the the close function for program exit
+ * @param max maximum number of supported entities at a given time
+*/
+void entity_manager_init(Uint32 max);
+
+/**
+ * @brief allocate and initialize a new entity
+ * @return NULL if there are no entities left, an empty entity otherwise
+*/
+Entity *entity_new();
+
+/**
+ * @brief Close the entity manager and remove it from memory,
+*/
+void entity_manager_close();
+
+/**
+ * @brief Free a single entity, remove it from the entity list, and
+ * release it from memory
+ * @param ent entity to be freed/removed
+*/
+void entity_free(Entity *ent);
+
+/**
+ * @brief Calls entity_free, frees all not in use entities
+*/
+void entity_free_all();
+
+/**
+ * @brief Draw a single entity
+ * @param ent Entity to be rendered
+*/
+void entity_draw(Entity *ent);
+
+/**
+ * @brief Draw all relevant entities
+*/
+void entity_draw_all();
+
+/**
+ * @brief Call the think function for all avaiable entities
+*/
+
+void entity_think_all();
+
+/**
+ * @brief Call the update function for all available entities
+*/
+void entity_update_all();
+
+
+#endif
