@@ -4,6 +4,8 @@
 #include "simple_logger.h"
 
 #include "codm_entity.h"
+void enemy_think(Entity *self);
+
 int main(int argc, char * argv[])
 {
     /*variable declarations*/
@@ -49,6 +51,7 @@ int main(int argc, char * argv[])
             128,
             16,
             0);
+        ent->think = enemy_think;
     }
 
     /*main game loop*/
@@ -73,6 +76,8 @@ int main(int argc, char * argv[])
             //backgrounds drawn first
             gf2d_sprite_draw_image(sprite,vector2d(0,0));
             entity_draw_all();
+            entity_think_all();
+            entity_update_all();
             //UI elements last
             gf2d_sprite_draw(
                 mouse,
