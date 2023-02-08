@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "simple_logger.h"
+#include "gfc_vector.h"
 //#include <codm_player.h>
 
 /**
@@ -15,7 +16,7 @@ void sanitize_user_input();
 /**
  * @brief Prepares UserInput struct for Player control functions
 */
-void prepare_user_input();
+Vector2D prepare_user_input();
 
 /**
  * @brief Calls necessary functions to evaluate user input

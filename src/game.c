@@ -4,6 +4,7 @@
 #include "simple_logger.h"
 
 #include "codm_entity.h"
+#include "codm_player.h"
 #include "codm_input.h"
 void enemy_think(Entity *self);
 
@@ -54,6 +55,8 @@ int main(int argc, char * argv[])
             0);
         ent->think = enemy_think;
     }
+
+    player_init(vector2d(100,100));
 
     /*main game loop*/
     while(!done)
