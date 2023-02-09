@@ -26,7 +26,19 @@ void player_init(Vector2D pos)
 void player_think(Entity *self)
 {
     if (!self) return;
-    Vector2D moveIntent = prepare_user_input();
-    self->velocity.x = moveIntent.x * SPEED;
-    self->velocity.y = moveIntent.y * SPEED;
+    UserInput moveIntent = prepare_user_input();
+
+    if(moveIntent.Left)
+        self->velocity.x = -1 * moveIntent.Left * SPEED;
+    else if (moveIntent.Right)
+        self->velocity.x = moveIntent.Right * SPEED;
+    else
+        self->velocity.x = 0;
+
+    if(moveIntent.Up)
+        self->velocity.y = -1 * moveIntent.Up * SPEED;
+    else if (moveIntent.Down)
+        self->velocity.y = moveIntent.Down * SPEED;
+    else
+        self->velocity.y = 0;    
 }
