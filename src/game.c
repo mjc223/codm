@@ -6,12 +6,17 @@
 #include "codm_entity.h"
 #include "codm_player.h"
 #include "codm_input.h"
+
+#include "codm_camera.h"
+#include "codm_level.h"
+
 void enemy_think(Entity *self);
 
 int main(int argc, char * argv[])
 {
     /*variable declarations*/
     int done = 0;
+    Level *level;
     const Uint8 * keys;
     Sprite *sprite;
     Entity *ent;
@@ -42,6 +47,9 @@ int main(int argc, char * argv[])
     sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16,0);
 
+    level = level_load("config/test.level");
+    level_set_active_level(level);
+
     ent = entity_new();
     if(ent) //if creation valid
     {
@@ -68,15 +76,18 @@ int main(int argc, char * argv[])
         SDL_GetMouseState(&mx,&my);
         mf+=0.1;
         if (mf >= 16.0)mf = 0;
-        
+
+        entity_think_all();
+        entity_update_all();
+        camera_world_snap();
         gf2d_graphics_clear_screen();// clears drawing buffers
         // all drawing should happen betweem clear_screen and next_frame
             //backgrounds drawn first
             gf2d_sprite_draw_image(sprite,vector2d(0,0));
 
+            level_draw(level_get_active_level());
             entity_draw_all();
-            entity_think_all();
-            entity_update_all();
+        
 
             user_input_update();
 
@@ -96,6 +107,10 @@ int main(int argc, char * argv[])
         if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
         //slog("Rendering at %f FPS",gf2d_graphics_get_frames_per_second());
     }
+
+    level_free(level);
+    entity_free(ent);
+
     slog("---==== END ====---");
     return 0;
 }
