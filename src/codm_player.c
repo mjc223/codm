@@ -10,6 +10,8 @@ void player_think(Entity *self);
 void player_init(Vector2D pos)
 {
     plr = entity_new();
+    plr->id = 1;
+    slog("player entity created");
     if(!plr) return NULL;
     plr->sprite = gf2d_sprite_load_all(
         "images/pointer.png",
@@ -41,4 +43,9 @@ void player_think(Entity *self)
         self->velocity.y = moveIntent.Down * SPEED;
     else
         self->velocity.y = 0;    
+}
+
+Vector2D player_get_position(Entity *self)
+{
+    return self->position;
 }

@@ -120,7 +120,7 @@ void enemy_think(Entity *self)
     if(!self) return;
 
     float speed = gfc_random() * 2 + 1;
-    
+
     if(self->position.x >= 500) 
         self->velocity.x = -1 * speed;
     else if (self->position.x <= 0)
