@@ -5,16 +5,31 @@
 #include "gfc_vector.h"
 #include "gf2d_sprite.h"
 
+#include "gfc_shape.h"
+
 typedef struct Entity_S
 {
     Bool _inuse;
-    int id;
-    float frame;
     Sprite *sprite;
+    int id;
+
+    float frame;
+    float rotation;
+    float speed;
+
+    Vector2D drawOffset;
+
+    Shape shape;
+
     Vector2D position;
     Vector2D velocity;
     Vector2D acceleration;
-    void (*think) (struct Entity_S *self)
+
+    void (*think) (struct Entity_S *self);
+    void (*update) (struct Entity_S *self);
+    void (*draw) (struct Entity_S *self);
+    void (*free_entity) (struct Entity_S *self);
+    void *data;
 }Entity;
 
 /**
@@ -68,6 +83,22 @@ void entity_think_all();
  * @brief Call the update function for all available entities
 */
 void entity_update_all();
+
+/**
+ * @brief given an entity get its shape in world space
+ * @param ent the entity to check
+ * @return a shape where its position is set to the world position
+ */
+
+Shape entity_get_shape(Entity *ent);
+
+/**
+ * @brief given an entity get its shape in world space where it will be after it moves
+ * @param ent the entity to check
+ * @return a shape where its position + velocity is set to the world position
+ */
+
+Shape entity_get_shape_after_move(Entity *ent);
 
 
 #endif

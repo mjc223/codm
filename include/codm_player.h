@@ -8,5 +8,6 @@ void player_init(Vector2D position);
 
 void player_think(Entity *self);
 
+Vector2D player_get_position(Entity *self);
 
 #endif
