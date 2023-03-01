@@ -13,15 +13,19 @@ void player_init(Vector2D pos)
     plr->id = 1;
     slog("player entity created");
     if(!plr) return NULL;
+
     plr->sprite = gf2d_sprite_load_all(
         "images/pointer.png",
         128,
         128,
         16,
         0);
+    
+    plr->shape = gfc_shape_circle(0,0,10);
+    plr->drawOffset = vector2d(16,16);
     plr->think = player_think;
     vector2d_copy(plr->position, pos);
-
+    
     return;
 }
 

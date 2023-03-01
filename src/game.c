@@ -50,11 +50,12 @@ int main(int argc, char * argv[])
     level = level_load("config/test.level");
     level_set_active_level(level);
 
+    
     ent = entity_new();
     if(ent) //if creation valid
     {
         slog("Valid entity created"); 
-
+        ent->shape = gfc_shape_circle(0,0,10);
         ent->sprite = gf2d_sprite_load_all(
             "images/space_bug_top.png",
             128,
@@ -62,7 +63,10 @@ int main(int argc, char * argv[])
             16,
             0);
         ent->think = enemy_think;
+        ent->position = vector2d(90, 90);
+        ent->drawOffset = vector2d(64,64);
     }
+    
 
     player_init(vector2d(100,100));
 
