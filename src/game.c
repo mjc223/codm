@@ -6,6 +6,7 @@
 #include "codm_entity.h"
 #include "codm_player.h"
 #include "codm_input.h"
+#include "codm_hud.h"
 
 #include "codm_camera.h"
 #include "codm_level.h"
@@ -96,6 +97,8 @@ int main(int argc, char * argv[])
             user_input_update();
 
             //UI elements last
+            hud_update_all();
+            
             gf2d_sprite_draw(
                 mouse,
                 vector2d(mx,my),
