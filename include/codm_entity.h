@@ -13,6 +13,9 @@ typedef struct Entity_S
     Sprite *sprite;
     int id;
 
+    int currhealth;
+    int maxhealth;
+
     float frame;
     float rotation;
     float speed;
