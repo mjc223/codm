@@ -82,8 +82,29 @@ void player_think(Entity *self)
 }
 
 
-void player_save()
+void player_save(const char *filename)
 {
+    Sjson *json, *player;
+
+    int speed,
+    meleeMult, rangedMult,
+    attackSpeed, 
+    currBomb, maxBomb,
+    currArrow, maxArrow;
+
+    if (!filename) return;
+
+    json = sj_load(filename); //have a default player json
+    if(!json) return;
+
+    player = sj_object_get_value(json, "player");
+    if(!player)
+    {
+        slog("file %s missing player object", filename);
+        sj_free(json);
+        return;
+    }
+
     
 }
 
