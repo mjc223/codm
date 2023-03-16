@@ -8,7 +8,7 @@ void player_init(Vector2D position);
 
 void player_think(Entity *self);
 
-void player_save(const char *filename)
+void player_save();
 
 Vector2D player_get_position(Entity *self);
 

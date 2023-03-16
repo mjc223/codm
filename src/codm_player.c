@@ -1,12 +1,10 @@
 #include "simple_logger.h"
 #include "simple_json.h"
-#include "simple_json_types.h"
-#include "simple_json_value.h"
 
 #include "codm_input.h"
 #include "codm_player.h"
 
-static int MAXSPEED = 5;
+static int SPEED = 3;
 static Entity *plr = {0};
 
 typedef struct
@@ -59,7 +57,7 @@ void player_init(Vector2D pos)
 
 
     vector2d_copy(plr->position, pos);
-    atexit(player_save());
+    atexit(player_save);
     return;
 }
 
@@ -69,16 +67,16 @@ void player_think(Entity *self)
     UserInput moveIntent = prepare_user_input();
 
     if(moveIntent.Left)
-        self->velocity.x = -1 * moveIntent.Left * MAXSPEED;
+        self->velocity.x = -1 * moveIntent.Left * SPEED;
     else if (moveIntent.Right)
-        self->velocity.x = moveIntent.Right * MAXSPEED;
+        self->velocity.x = moveIntent.Right * SPEED;
     else
         self->velocity.x = 0;
 
     if(moveIntent.Up)
-        self->velocity.y = -1 * moveIntent.Up * MAXSPEED;
+        self->velocity.y = -1 * moveIntent.Up * SPEED;
     else if (moveIntent.Down)
-        self->velocity.y = moveIntent.Down * MAXSPEED;
+        self->velocity.y = moveIntent.Down * SPEED;
     else
         self->velocity.y = 0;
 }
@@ -106,12 +104,8 @@ void player_save(const char *filename)
         sj_free(json);
         return;
     }
-    
-    SJson spd = sj_object_get_value(player, "speed");
-    speed = sj_get_integer_value(player, "speed");
-    slog("The speed value is %i", speed);
 
-    sj_object_insert(player, "speed", )
+    
 }
 
 
