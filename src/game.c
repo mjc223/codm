@@ -1,7 +1,10 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
+
 #include "gf2d_graphics.h"
 #include "gf2d_sprite.h"
 #include "simple_logger.h"
+#include "gf2d_font.h"
 
 #include "codm_entity.h"
 #include "codm_player.h"
@@ -32,6 +35,7 @@ int main(int argc, char * argv[])
     /*program initializtion*/
     init_logger("gf2d.log");
     slog("---==== BEGIN ====---");
+
     gf2d_graphics_initialize(
         "gf2d",
         1200,
@@ -43,7 +47,8 @@ int main(int argc, char * argv[])
     gf2d_graphics_set_frame_delay(16);
     gf2d_sprite_init(1024);
     SDL_ShowCursor(SDL_DISABLE);
-    
+    gf2d_font_init("config/font.cfg");
+
     /*demo setup*/
     sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16,0);
@@ -97,6 +102,11 @@ int main(int argc, char * argv[])
             user_input_update();
 
             //UI elements last
+            Rect rectMe;
+            rectMe = gf2d_font_get_text_wrap_bounds_tag("Hello Dingus", FT_Normal, 300, 150);
+
+            gf2d_font_draw_text_wrap_tag("Hello Dingus", FT_Normal, GFC_COLOR_BLACK, rectMe);
+
             hud_update_all();
             
             gf2d_sprite_draw(
