@@ -1,2 +1,15 @@
-{"name":"Link","meleeMult":1,"rangeMult":1,"attackSpeed":1,"currBomb":5,"maxBomb":5,"currArrow":0,"maxArrow":0
-    ,"speed":5}
+{
+    "player":
+    {
+        "xPos":150.000000,
+        "yPos":150.000000,
+        "speed":3,
+        "meleeMult":1,
+        "arrowMult":1,
+        "attackSpeed":1,
+        "currBomb":5,
+        "maxBomb":5,
+        "currArrow":0,
+        "maxArrow":0
+    }
+}
