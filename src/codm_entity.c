@@ -179,11 +179,11 @@ void entity_think_all()
 
             r = gfc_shape_overlap(s1, s2);
             if(r)
-                slog("shape overlapping");
+                //slog("shape overlapping");
             if(r)
             {
-                slog(e1->sprite->filepath);
-                slog(e2->sprite->filepath);
+                //slog(e1->sprite->filepath);
+                //slog(e2->sprite->filepath);
             }
         }
         entity_think(&entity_manager.entity_list[i]);

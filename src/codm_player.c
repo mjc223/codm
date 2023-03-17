@@ -4,9 +4,10 @@
 #include "codm_input.h"
 #include "codm_player.h"
 
-static int SPEED = 3;
+static int MAXSPEED = 3;
 static Entity *plr = {0};
-
+static char* filename = "config/player.def";
+SJson *playerSaveCopy;
 typedef struct
 {
     int meleeMult;
@@ -54,8 +55,6 @@ void player_init(Vector2D pos)
         data->maxArrow = 10;
         plr->data = data;
     }
-
-
     vector2d_copy(plr->position, pos);
     atexit(player_save);
     return;
@@ -67,27 +66,33 @@ void player_think(Entity *self)
     UserInput moveIntent = prepare_user_input();
 
     if(moveIntent.Left)
-        self->velocity.x = -1 * moveIntent.Left * SPEED;
+        self->velocity.x = -1 * moveIntent.Left * MAXSPEED;
     else if (moveIntent.Right)
-        self->velocity.x = moveIntent.Right * SPEED;
+        self->velocity.x = moveIntent.Right * MAXSPEED;
     else
         self->velocity.x = 0;
 
     if(moveIntent.Up)
-        self->velocity.y = -1 * moveIntent.Up * SPEED;
+        self->velocity.y = -1 * moveIntent.Up * MAXSPEED;
     else if (moveIntent.Down)
-        self->velocity.y = moveIntent.Down * SPEED;
+        self->velocity.y = moveIntent.Down * MAXSPEED;
     else
         self->velocity.y = 0;
 }
 
 
-void player_save(const char *filename)
+void player_save()
 {
-    Sjson *json, *player;
+    slog("reached trigger");
+    SJson *json, *player, *psl;
+    SJson *kil;
 
+    SJString *s;
+    char *str;
+
+    char *name;
     int speed,
-    meleeMult, rangedMult,
+    meleeMult, rangeMult,
     attackSpeed, 
     currBomb, maxBomb,
     currArrow, maxArrow;
@@ -104,8 +109,38 @@ void player_save(const char *filename)
         sj_free(json);
         return;
     }
+    name = sj_object_get_value_as_string(player, "name");  
+    speed = SDL_atoi(sj_object_get_value_as_string(player, "speed"));
 
+    meleeMult = SDL_atoi(sj_object_get_value_as_string(player, "meleeMult"));
+
+    playerSaveCopy = sj_copy(json);
+
+    psl = sj_object_get_value(playerSaveCopy, "player");
+
+    sj_object_delete_key(psl, "speed");
+
+    SJson *newSpeed;
+    newSpeed = sj_new_int(5);
     
+    sj_object_insert(psl, "speed", newSpeed);
+
+    sj_save(psl, "config/player2.def");
+
+    //slog(s->text);
+    //sj_string_set()
+    //meleeMult = SDL_atoi(kil->v);
+    //rangedMult = SDL_atoi(sj_object_get_value_as_string(player, "rangedMult"));
+
+    //attackSpeed = SDL_atoi(sj_object_get_value_as_string(player, "attackSpeed"));
+    
+  //  currBomb = SDL_atoi(sj_object_get_value_as_string(player, "currBomb"));
+    //maxBomb = SDL_atoi(sj_object_get_value_as_string(player, "maxBomb"));
+
+    //currArrow = SDL_atoi(sj_object_get_value_as_string(player, "currArrow"));
+    //maxArrow = SDL_atoi(sj_object_get_value_as_string(player, "maxArrow"));
+    
+    //slog("The value is %s %i ");
 }
 
 
