@@ -14,4 +14,6 @@ void hud_update_player_info();
 
 void hud_update_message();
 
+void hud_update_stats();
+
 #endif

@@ -35,6 +35,8 @@ SJson* player_save_writer();
 
 Vector2D player_get_position(Entity *self);
 
+int player_get_curr_health();
+
 PlayerData* player_get_pd();
 
 #endif

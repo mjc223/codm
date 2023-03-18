@@ -187,3 +187,8 @@ PlayerData* player_get_pd()
 {
     return plr->data;
 }
+
+int player_get_curr_health()
+{
+    return plr->currhealth;
+}
