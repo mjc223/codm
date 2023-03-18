@@ -3,11 +3,15 @@
 
 #include "gf2d_graphics.h"
 #include "gf2d_sprite.h"
-
+#include "gf2d_font.h"
 #include "gfc_vector.h"
 
 #include "codm_player.h"
 
 void hud_update_all();
+
+void hud_update_player_info();
+
+void hud_update_message();
 
 #endif

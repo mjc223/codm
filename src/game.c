@@ -102,10 +102,6 @@ int main(int argc, char * argv[])
             user_input_update();
 
             //UI elements last
-            Rect rectMe;
-            rectMe = gf2d_font_get_text_wrap_bounds_tag("Hello Dingus", FT_Normal, 300, 150);
-
-            gf2d_font_draw_text_wrap_tag("Hello Dingus", FT_Normal, GFC_COLOR_BLACK, rectMe);
 
             hud_update_all();
             

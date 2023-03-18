@@ -159,6 +159,9 @@ void player_think(Entity *self)
     UserInput moveIntent = prepare_user_input();
     PlayerData *pd = plr->data;
 
+    pd->xPos = self->position.x;
+    pd->yPos = self->position.y;
+    
     if(moveIntent.Left)
         self->velocity.x = -1 * moveIntent.Left * pd->speed;
     else if (moveIntent.Right)
@@ -175,9 +178,12 @@ void player_think(Entity *self)
 }
 
 
-
-
 Vector2D player_get_position(Entity *self)
 {
     return self->position;
+}
+
+PlayerData* player_get_pd()
+{
+    return plr->data;
 }
