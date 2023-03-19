@@ -7,6 +7,7 @@
 
 typedef struct
 {
+    int selectedItem;
     int hasBomb;
     int hasBow;
     int hasCandle;

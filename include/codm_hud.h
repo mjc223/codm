@@ -8,6 +8,8 @@
 
 #include "codm_player.h"
 
+void hud_init();
+
 void hud_update_all();
 
 void hud_update_player_info();

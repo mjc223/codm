@@ -75,7 +75,7 @@ int main(int argc, char * argv[])
     
 
     player_init(vector2d(100,100));
-
+    hud_init();
     /*main game loop*/
     while(!done)
     {

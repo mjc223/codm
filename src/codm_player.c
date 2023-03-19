@@ -10,7 +10,10 @@ static char* invfilename = "config/playerinv.def";
 
 SJson *jsonPlayer, *jsonPlayerInv;
 
-enum InventoryOrder {Empty, Bomb, Bow, Candle}; 
+enum InventoryOrder {ItemEmpty, ItemBomb, ItemBow, ItemCandle}; 
+int InventorySize = ItemCandle - ItemEmpty;
+
+int swapCooldown = 0;
 
 void player_init(Vector2D pos)
 {
@@ -101,6 +104,7 @@ void player_inv_load(PlayerInv *inv)
         return;
     }
 
+    sj_object_get_value_as_int(playerInvObj, "selectedItem", &inv->selectedItem);
     sj_object_get_value_as_int(playerInvObj, "hasBomb", &inv->hasBomb);
     sj_object_get_value_as_int(playerInvObj, "hasBow", &inv->hasBow);
     sj_object_get_value_as_int(playerInvObj, "hasCandle", &inv->hasCandle);
@@ -171,7 +175,76 @@ SJson* player_save_writer()
 
 void player_think(Entity *self)
 {
+    if(!self) return;
 
+    UserInput swapIntent = prepare_user_input();
+    PlayerData *pd = plr->data;
+    PlayerInv *inv = pd->inv;
+
+    int prevItem = inv->selectedItem - 1;
+    int nextItem = inv->selectedItem + 1;
+
+    if(swapCooldown <= 0)
+    {
+        if(swapIntent.QSL)
+        {
+            if(!(inv->selectedItem <= ItemEmpty))
+            {
+                switch (prevItem)
+                {
+                case ItemEmpty:
+                    if(inv->hasBomb)
+                        inv->selectedItem -= 1;
+                    break;
+                case ItemBomb:
+                    if(inv->hasBomb)
+                        inv->selectedItem -= 1;
+                    break;
+                
+                case ItemBow:
+                    if(inv->hasBow)
+                        inv->selectedItem -= 1;
+
+                case ItemCandle:
+                    if(inv->hasCandle)
+                        inv->selectedItem -= 1;
+                default:
+                    break;
+                }
+                swapCooldown = 30;
+            }
+        }
+        else if (swapIntent.QSR)
+        {
+            if(!(inv->selectedItem >= ItemCandle))
+            {
+                switch (nextItem)
+                {
+                case ItemEmpty:
+                    inv->selectedItem += 1;
+                    break;
+                
+                case ItemBomb:
+                    if(inv->hasBomb)
+                        inv->selectedItem += 1;
+                    break;
+                
+                case ItemBow:
+                    if(inv->hasBow)
+                        inv->selectedItem += 1;
+
+                case ItemCandle:
+                    if(inv->hasCandle)
+                        inv->selectedItem += 1;
+                default:
+                    break;
+                }
+                swapCooldown = 30;
+            }
+        }
+    }
+    swapCooldown -= 1;
+    
 }
 
 void player_update(Entity *self)
@@ -183,6 +256,7 @@ void player_update(Entity *self)
 
     pd->xPos = self->position.x;
     pd->yPos = self->position.y;
+    
     
     if(moveIntent.Left)
         self->velocity.x = -1 * moveIntent.Left * pd->speed;
