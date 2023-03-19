@@ -7,6 +7,13 @@
 
 typedef struct
 {
+    int hasBomb;
+    int hasBow;
+    int hasCandle;
+}PlayerInv;
+
+typedef struct
+{
     float xPos;
     float yPos;
 
@@ -21,13 +28,18 @@ typedef struct
 
     int currArrow;
     int maxArrow;
+
+    PlayerInv* inv;
 }PlayerData;
+
 
 void player_init(Vector2D position);
 
 void player_think(Entity *self);
 
 void player_load(PlayerData *data);
+
+void player_inv_load(PlayerInv *inv);
 
 void player_save();
 

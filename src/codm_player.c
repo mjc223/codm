@@ -6,28 +6,15 @@
 
 static Entity *plr = {0};
 static char* filename = "config/player.def";
+static char* invfilename = "config/playerinv.def";
 
-
-SJson *jsonPlayer;
-/*
-typedef struct
-{
-    int meleeMult;
-    int rangeMult;
-    int attackSpeed;
-
-    int currBomb;
-    int maxBomb;
-
-    int currArrow;
-    int maxArrow;
-}PlayerData;
-*/
+SJson *jsonPlayer, *jsonPlayerInv;
 
 
 void player_init(Vector2D pos)
 {
     PlayerData *data;
+    PlayerInv *inv;
     plr = entity_new();
     plr->id = 1;
     slog("player entity created");
@@ -48,7 +35,13 @@ void player_init(Vector2D pos)
 
     data = gfc_allocate_array(sizeof(PlayerData), 1);        
     player_load(data);
+
+    inv = gfc_allocate_array(sizeof(PlayerInv), 1);
+    player_inv_load(inv);
+
+    data->inv = inv;
     plr->data = data;
+    
 
     vector2d_copy(plr->position, vector2d(data->xPos, data->yPos));
     atexit(player_save);
@@ -87,6 +80,28 @@ void player_load(PlayerData *data)
 
     sj_object_get_value_as_int(playerObj, "currArrow", &data->currArrow);
     sj_object_get_value_as_int(playerObj, "maxArrow", &data->maxArrow);
+}
+
+void player_inv_load(PlayerInv *inv)
+{
+    SJson *playerInvObj;
+
+    if (!invfilename) return;
+
+    jsonPlayerInv = sj_load(invfilename); //have a default player json
+    if(!jsonPlayerInv) return;
+
+    playerInvObj = sj_object_get_value(jsonPlayerInv, "player");
+    if(!playerInvObj)
+    {
+        slog("file %s missing player object", invfilename);
+        sj_free(jsonPlayerInv);
+        return;
+    }
+
+    sj_object_get_value_as_int(playerInvObj, "hasBomb", &inv->hasBomb);
+    sj_object_get_value_as_int(playerInvObj, "hasBow", &inv->hasBow);
+    sj_object_get_value_as_int(playerInvObj, "hasCandle", &inv->hasCandle);
 }
 
 void player_save()

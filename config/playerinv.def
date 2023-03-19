@@ -1,0 +1,8 @@
+{
+    "player":
+    {
+        "hasBomb":1,
+        "hasArrow":1,
+        "hasCandle":1
+    }
+}
