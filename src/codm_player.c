@@ -10,6 +10,7 @@ static char* invfilename = "config/playerinv.def";
 
 SJson *jsonPlayer, *jsonPlayerInv;
 
+enum InventoryOrder {Empty, Bomb, Bow, Candle}; 
 
 void player_init(Vector2D pos)
 {
@@ -30,6 +31,7 @@ void player_init(Vector2D pos)
     plr->shape = gfc_shape_circle(0,0,10);
     plr->drawOffset = vector2d(16,16);
     plr->think = player_think;
+    plr->update = player_update;
     plr->currhealth = 6;
     plr->maxhealth = 6;
 
@@ -114,7 +116,6 @@ void player_save()
 
     jsonCopy = sj_copy(jsonPlayer);
 
-    
     playerNew = player_save_writer();
 
     sj_object_delete_key(jsonCopy, "player");
@@ -170,6 +171,12 @@ SJson* player_save_writer()
 
 void player_think(Entity *self)
 {
+
+}
+
+void player_update(Entity *self)
+{
+    
     if (!self) return;
     UserInput moveIntent = prepare_user_input();
     PlayerData *pd = plr->data;

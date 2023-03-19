@@ -196,13 +196,16 @@ void entity_update(Entity *ent)
 {
     if(!ent) return;
     
-    /*
+    
     if (ent->update)
-    {if (level_shape_clip(level_get_active_level(), entity_get_shape_after_move(ent)))
-        if (ent->update(ent))return;// if the update function returns 1, do not do generic update
+    {
+        ent->update(ent);
+        //if (level_shape_clip(level_get_active_level(), entity_get_shape_after_move(ent)))
+        //    if (ent->update(ent))return;// if the update function returns 1, do not do generic update
     }
-    */
+    
    
+    
     ent->frame += 0.1;
     if (ent->frame >= 16) ent->frame = 0; //Hardcoded and ugly, but cycling animation frames.
 

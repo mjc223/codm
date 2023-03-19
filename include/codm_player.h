@@ -37,6 +37,8 @@ void player_init(Vector2D position);
 
 void player_think(Entity *self);
 
+void player_update(Entity *self);
+
 void player_load(PlayerData *data);
 
 void player_inv_load(PlayerInv *inv);
