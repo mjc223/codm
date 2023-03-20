@@ -179,11 +179,8 @@ void entity_think_all()
 
             r = gfc_shape_overlap(s1, s2);
             if(r)
-                //slog("shape overlapping");
-            if(r)
             {
-                //slog(e1->sprite->filepath);
-                //slog(e2->sprite->filepath);
+                
             }
         }
         entity_think(&entity_manager.entity_list[i]);
@@ -205,14 +202,19 @@ void entity_update(Entity *ent)
     }
     
    
+    if(ent->animated) 
+    {
+        ent->frame += 0.1;
+            if (ent->frame >= 16) ent->frame = 0; //Hardcoded and ugly, but cycling animation frames.
+    }
     
-    ent->frame += 0.1;
-    if (ent->frame >= 16) ent->frame = 0; //Hardcoded and ugly, but cycling animation frames.
+    
 
     if (level_shape_clip(level_get_active_level(),entity_get_shape_after_move(ent) ))
     {
         return;
     }
+    //gfc_shape_move(&ent->shape, ent->velocity);
 
     vector2d_add(ent->position, ent->position, ent->velocity);
 }

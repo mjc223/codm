@@ -14,7 +14,9 @@ void hud_update_all();
 
 void hud_update_player_info();
 
-void hud_update_message();
+void hud_change_message(char *message);
+
+void hud_update_message(char *message);
 
 void hud_update_stats();
 

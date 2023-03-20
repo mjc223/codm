@@ -12,6 +12,7 @@
 #include "codm_hud.h"
 
 #include "codm_camera.h"
+#include "codm_item.h"
 #include "codm_level.h"
 
 void enemy_think(Entity *self);
@@ -68,12 +69,17 @@ int main(int argc, char * argv[])
             128,
             16,
             0);
+        ent->animated = 1;
         ent->think = enemy_think;
         ent->position = vector2d(90, 90);
         ent->drawOffset = vector2d(64,64);
     }
-    
 
+    health_upgrade_init(vector2d(300, 300));
+    sword_upgrade_init(vector2d(450, 450));
+    bow_upgrade_init(vector2d(500, 500));
+    speed_upgrade_init(vector2d(500, 200));
+    
     player_init(vector2d(100,100));
     hud_init();
     /*main game loop*/

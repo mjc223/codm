@@ -51,7 +51,17 @@ SJson* player_save_writer();
 Vector2D player_get_position(Entity *self);
 
 int player_get_curr_health();
+int player_get_max_health();
+
+Entity* player_get_ent();
 
 PlayerData* player_get_pd();
+
+Shape player_get_shape();
+
+void player_set_max_health(int increase);
+void player_upgrade_sword_damage(int increase);
+void player_upgrade_bow_damage(int increase);
+void player_upgrade_speed(int increase);
 
 #endif

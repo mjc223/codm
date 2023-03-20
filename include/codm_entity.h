@@ -7,6 +7,9 @@
 
 #include "gfc_shape.h"
 
+typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo }ItemType;
+typedef enum FacingDirection{North, South, East, West}FacingDirection;
+
 typedef struct Entity_S
 {
     Bool _inuse;
@@ -16,8 +19,10 @@ typedef struct Entity_S
     int currhealth;
     int maxhealth;
 
+    int animated;
     float frame;
     float rotation;
+    FacingDirection dir;
     float speed;
 
     Vector2D drawOffset;
@@ -27,6 +32,8 @@ typedef struct Entity_S
     Vector2D position;
     Vector2D velocity;
     Vector2D acceleration;
+
+    ItemType type;
 
     void (*think) (struct Entity_S *self);
     void (*update) (struct Entity_S *self);

@@ -14,7 +14,7 @@
 
 
 //Retrieve Player Data, Draw relevant Player Data
-
+char *currMessage;
 enum InventoryOrder {ItemEmpty, ItemBomb, ItemBow, ItemCandle}; 
 
 Sprite *bomb, *bow, *candle;
@@ -32,28 +32,31 @@ void hud_update_all()
 {
     hud_update_player_info();
     hud_update_stats();
-    hud_update_message();
+    hud_update_message(currMessage);
 }
 
 void hud_update_player_info()
 {
     Rect pos;
     char buf[15];
-    SDL_snprintf(buf, sizeof(buf), "Health: %i", player_get_curr_health());
-    
-    
-
+    SDL_snprintf(buf, sizeof(buf), "Health: %i", player_get_max_health());
     pos = gf2d_font_get_text_wrap_bounds_tag(buf, FT_Normal, 600, 200);
     gf2d_font_draw_text_wrap_tag(buf, FT_Normal, GFC_COLOR_WHITE, pos);
 }
 
-void hud_update_message()
+void hud_change_message(char *a)
 {
+    currMessage = a;
+}
+
+void hud_update_message(char *a)
+{
+    if (!a) return;
     Rect message;
-    message = gf2d_font_get_text_wrap_bounds_tag("A Potential Message", FT_Normal, 300, 800);
+    message = gf2d_font_get_text_wrap_bounds_tag(a, FT_Normal, 300, 800);
     message.x = message.x + 650.0;
 
-    gf2d_font_draw_text_wrap_tag("A Potential Message", FT_Normal, GFC_COLOR_RED, message);
+    gf2d_font_draw_text_wrap_tag(a, FT_Normal, GFC_COLOR_RED, message);
 }
 
 void hud_update_stats()

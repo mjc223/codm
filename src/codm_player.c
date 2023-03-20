@@ -31,6 +31,8 @@ void player_init(Vector2D pos)
         16,
         0);
     
+    plr->animated = 1;
+    plr->dir = North;
     plr->shape = gfc_shape_circle(0,0,10);
     plr->drawOffset = vector2d(16,16);
     plr->think = player_think;
@@ -259,16 +261,28 @@ void player_update(Entity *self)
     
     
     if(moveIntent.Left)
+    {
         self->velocity.x = -1 * moveIntent.Left * pd->speed;
+        self->dir = West;
+    }
     else if (moveIntent.Right)
+    {
         self->velocity.x = moveIntent.Right * pd->speed;
+        self->dir = East;
+    }
     else
         self->velocity.x = 0;
 
     if(moveIntent.Up)
+    {
         self->velocity.y = -1 * moveIntent.Up * pd->speed;
+        self->dir = North;
+    }
     else if (moveIntent.Down)
+    {
         self->velocity.y = moveIntent.Down * pd->speed;
+        self->dir = South;
+    }
     else
         self->velocity.y = 0;
 }
@@ -287,4 +301,43 @@ PlayerData* player_get_pd()
 int player_get_curr_health()
 {
     return plr->currhealth;
+}
+
+int player_get_max_health()
+{
+    return plr->maxhealth;
+}
+
+Shape player_get_shape()
+{
+    return entity_get_shape(plr);
+    
+}
+
+void player_set_max_health(int increase)
+{
+    plr->maxhealth += increase;
+}
+
+void player_upgrade_sword_damage(int increase)
+{
+    PlayerData *pd = plr->data;
+    pd->meleeMult += increase;
+}
+
+void player_upgrade_bow_damage(int increase)
+{
+    PlayerData *pd = plr->data;
+    pd->arrowMult += increase;
+}
+
+void player_upgrade_speed(int increase)
+{
+    PlayerData *pd = plr->data;
+    pd->speed += increase;
+}
+
+Entity* player_get_ent()
+{
+    return plr;
 }
