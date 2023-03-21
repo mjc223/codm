@@ -10,6 +10,7 @@
 #include "codm_player.h"
 #include "codm_input.h"
 #include "codm_hud.h"
+#include "codm_object.h"
 
 #include "codm_camera.h"
 #include "codm_item.h"
@@ -79,7 +80,10 @@ int main(int argc, char * argv[])
     sword_upgrade_init(vector2d(450, 450));
     bow_upgrade_init(vector2d(500, 500));
     speed_upgrade_init(vector2d(500, 200));
+
     
+    eye_switch_init(vector2d(100, 450), wall_trigger_init(vector2d(100, 550)));
+
     player_init(vector2d(100,100));
     hud_init();
     /*main game loop*/

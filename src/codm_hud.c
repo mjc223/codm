@@ -73,7 +73,6 @@ void hud_update_stats()
 
     gf2d_font_draw_text_wrap_tag(buf, FT_Normal, GFC_COLOR_WHITE, pos);
 
-    Sprite *s;
     int i = (int) inv->selectedItem;
     char *a;
     switch (i)

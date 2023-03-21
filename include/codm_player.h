@@ -46,6 +46,8 @@ void player_inv_load(PlayerInv *inv);
 
 void player_save();
 
+void player_attack2(Entity *self);
+
 SJson* player_save_writer();
 
 Vector2D player_get_position(Entity *self);

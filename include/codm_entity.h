@@ -7,7 +7,7 @@
 
 #include "gfc_shape.h"
 
-typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo }ItemType;
+typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo, EyeSwitch, Living, Projectile}ItemType;
 typedef enum FacingDirection{North, South, East, West}FacingDirection;
 
 typedef struct Entity_S
@@ -34,6 +34,8 @@ typedef struct Entity_S
     Vector2D acceleration;
 
     ItemType type;
+
+    float damage;
 
     void (*think) (struct Entity_S *self);
     void (*update) (struct Entity_S *self);
@@ -110,5 +112,9 @@ Shape entity_get_shape(Entity *ent);
 
 Shape entity_get_shape_after_move(Entity *ent);
 
+Entity* get_entity_list();
+int get_entity_max();
+
+void entity_damage(int damage);
 
 #endif

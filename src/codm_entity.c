@@ -11,17 +11,17 @@ typedef struct
     SJson *entity_def;
 }EntityManager;
 
-/*
-typedef struct
-{
-    Uint32 coll_max;
-    Entity *coll_list;
-}EntityCollisionManager;
-*/
-
 static EntityManager entity_manager = {0};
-//static EntityCollisionManager coll_manager = {0};
 
+Entity* get_entity_list()
+{
+    return entity_manager.entity_list;
+}
+
+int get_entity_max()
+{
+    return entity_manager.entity_max;
+}
 
 void entity_manager_close()
 {
@@ -29,15 +29,6 @@ void entity_manager_close()
     if (entity_manager.entity_list) free (entity_manager.entity_list);
     slog("Entity System Closed Successfully");
 }
-
-/*
-void coll_manager_close()
-{
-    coll_free_all();
-    if(coll_manager.coll_list) free (coll_manager.coll_list);
-    slog("Collision Manager Closed Successfully");
-}
-*/
 
 void entity_manager_init(Uint32 max)
 {
@@ -59,28 +50,6 @@ void entity_manager_init(Uint32 max)
     slog("Entity System Initialized");
 
 }
-
-/*
-void collision_manager_init(Uint32 max)
-{
-    if (max <= 0)
-    {
-        slog("Cannot initialize collision system: No ents specified")
-        return;
-    }
-
-    coll_manager.coll_list = gfc_allocate_array(sizeof(Entity), max);
-
-    if (!coll_manager.coll_list)
-    {
-        slog("Failed coll list initialization");
-        return;
-    }
-
-    coll_manager.coll_max = max;
-    atexit()
-}
-*/
 
 void entity_free_all()
 {
@@ -164,7 +133,7 @@ void entity_think_all()
     {
         if (!entity_manager.entity_list[i]._inuse) continue;
         
-
+        /*
         for (j = 0; j < entity_manager.entity_max; j++)
         {
             //Shapes collide with themselves
@@ -183,6 +152,8 @@ void entity_think_all()
                 
             }
         }
+        */
+
         entity_think(&entity_manager.entity_list[i]);
     }
 
@@ -264,6 +235,11 @@ Shape entity_get_shape(Entity *ent)
     gfc_shape_copy(&shape,ent->shape);
     gfc_shape_move(&shape,ent->position);
     return shape;
+}
+
+void entity_damage(int damage)
+{
+    
 }
 
 /*eol@eof*/

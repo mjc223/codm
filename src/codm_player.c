@@ -3,6 +3,7 @@
 
 #include "codm_input.h"
 #include "codm_player.h"
+#include "codm_projectile.h"
 
 static Entity *plr = {0};
 static char* filename = "config/player.def";
@@ -14,6 +15,7 @@ enum InventoryOrder {ItemEmpty, ItemBomb, ItemBow, ItemCandle};
 int InventorySize = ItemCandle - ItemEmpty;
 
 int swapCooldown = 0;
+int attack2Cooldown = 0;
 
 void player_init(Vector2D pos)
 {
@@ -247,6 +249,10 @@ void player_think(Entity *self)
     }
     swapCooldown -= 1;
     
+    if(swapIntent.Attack2)
+    {
+        player_attack2(self);
+    }
 }
 
 void player_update(Entity *self)
@@ -287,6 +293,38 @@ void player_update(Entity *self)
         self->velocity.y = 0;
 }
 
+void player_attack2(Entity *self)
+{
+    PlayerData *pd = plr->data;
+    PlayerInv *inv = pd->inv;
+
+    if(attack2Cooldown <= 0)
+    {
+        switch (inv->selectedItem)
+        {
+        case ItemBomb:
+            //char *c = "images/item/bomb.png";   
+            //projectile_new(self, self->dir, 0, 0, c);
+            break;
+        
+        case ItemBow:
+            char *a = "images/item/bolt.png";
+            projectile_new(self, self->dir, 5.0, 3.0, a);
+            break;
+        case ItemCandle:
+            char *b = "images/item/fire.png";
+            projectile_new(self, self->dir, 1.5, 10, b);
+            break;
+        default:
+            
+            break;
+        }
+        attack2Cooldown = 30;
+    }
+    attack2Cooldown -= 1;
+    
+
+}
 
 Vector2D player_get_position(Entity *self)
 {
