@@ -30,13 +30,13 @@ void player_init(Vector2D pos)
     if(!plr) return;
 
     plr->sprite = gf2d_sprite_load_all(
-        "images/pointer.png",
-        128,
-        128,
-        16,
+        "images/ZeldaUp.png",
+        32,
+        32,
+        1,
         0);
     
-    plr->animated = 1;
+    plr->animated = 0;
     plr->dir = North;
     plr->shape = gfc_shape_circle(0,0,10);
     plr->drawOffset = vector2d(16,16);
@@ -194,6 +194,44 @@ void player_think(Entity *self)
     int prevItem = inv->selectedItem - 1;
     int nextItem = inv->selectedItem + 1;
 
+    switch(self->dir)
+    {
+        case North:
+            plr->sprite = gf2d_sprite_load_all(
+            "images/ZeldaUp.png",
+            32,
+            32,
+            1,
+            0);
+            break;
+
+        case South:
+            plr->sprite = gf2d_sprite_load_all(
+            "images/ZeldaDown.png",
+            32,
+            32,
+            1,
+            0);
+            break;
+
+        case West:
+            plr->sprite = gf2d_sprite_load_all(
+            "images/ZeldaLeft.png",
+            32,
+            32,
+            1,
+            0);
+            break;
+
+        case East:
+            plr->sprite = gf2d_sprite_load_all(
+            "images/ZeldaRight.png",
+            32,
+            32,
+            1,
+            0);
+            break;
+    }
     if(swapCooldown <= 0)
     {
         if(swapIntent.QSL)

@@ -20,6 +20,8 @@ typedef struct Entity_S
     int maxhealth;
 
     int animated;
+    int frameCount;
+    
     float frame;
     float rotation;
     FacingDirection dir;

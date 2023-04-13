@@ -177,6 +177,7 @@ void entity_update(Entity *ent)
     {
         ent->frame += 0.1;
             if (ent->frame >= 16) ent->frame = 0; //Hardcoded and ugly, but cycling animation frames.
+            
     }
     
     
