@@ -17,6 +17,7 @@
 #include "codm_item.h"
 #include "codm_level.h"
 
+Sound* gameMusic;
 
 void enemy_think(Entity *self);
 
@@ -52,8 +53,13 @@ int main(int argc, char * argv[])
     gf2d_sprite_init(1024);
     SDL_ShowCursor(SDL_DISABLE);
     gf2d_font_init("config/font.cfg");
-    gfc_audio_init(256,16,4,1,1,1);
 
+
+    gfc_audio_init(256,16,4,1,1,1);
+    gameMusic = gfc_sound_load("music/wisdom.mp3", 50.0, -1);
+    gfc_sound_play(gameMusic, -1, 30.0, -1, -1);
+
+    
 
     /*demo setup*/
     sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
@@ -90,6 +96,8 @@ int main(int argc, char * argv[])
 
     player_init(vector2d(100,100));
     hud_init();
+
+
     /*main game loop*/
     while(!done)
     {
