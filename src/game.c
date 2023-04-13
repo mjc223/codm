@@ -5,6 +5,7 @@
 #include "gf2d_sprite.h"
 #include "simple_logger.h"
 #include "gf2d_font.h"
+#include "gfc_audio.h"
 
 #include "codm_entity.h"
 #include "codm_player.h"
@@ -15,6 +16,7 @@
 #include "codm_camera.h"
 #include "codm_item.h"
 #include "codm_level.h"
+
 
 void enemy_think(Entity *self);
 
@@ -50,6 +52,8 @@ int main(int argc, char * argv[])
     gf2d_sprite_init(1024);
     SDL_ShowCursor(SDL_DISABLE);
     gf2d_font_init("config/font.cfg");
+    gfc_audio_init(256,16,4,1,1,1);
+
 
     /*demo setup*/
     sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");

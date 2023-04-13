@@ -4,6 +4,7 @@
 #include "codm_input.h"
 #include "codm_player.h"
 #include "codm_projectile.h"
+#include "gfc_audio.h"
 
 static Entity *plr = {0};
 static char* filename = "config/player.def";
@@ -16,6 +17,8 @@ int InventorySize = ItemCandle - ItemEmpty;
 
 int swapCooldown = 0;
 int attack2Cooldown = 0;
+
+Sound* attackSound;
 
 void player_init(Vector2D pos)
 {
@@ -53,6 +56,9 @@ void player_init(Vector2D pos)
     
 
     vector2d_copy(plr->position, vector2d(data->xPos, data->yPos));
+
+    attackSound = gfc_sound_load("sounds/sounds_select.wav", 100.0, -1);
+
     atexit(player_save);
     return;
 }
@@ -309,6 +315,7 @@ void player_attack2(Entity *self)
         
         case ItemBow:
             char *a = "images/item/bolt.png";
+            gfc_sound_play(attackSound, 0, 50.0, -1, -1);
             projectile_new(self, self->dir, 5.0, 3.0, a);
             break;
         case ItemCandle:
