@@ -6,6 +6,7 @@
 
 #include "gf2d_graphics.h"
 
+#include "codm_entity.h"
 #include "codm_camera.h"
 #include "codm_level.h"
 
@@ -95,6 +96,7 @@ Level *level_load(const char *filename)
         }
     }
     sj_free(json);
+    entity_clear_all();
     level_build(level);
     return level;
 }

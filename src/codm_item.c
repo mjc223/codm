@@ -1,6 +1,7 @@
 #include "codm_item.h"
 #include "codm_player.h"
 #include "simple_logger.h"
+#include "codm_level.h"
 
 Entity* health_upgrade_init(Vector2D vect)
 {
@@ -106,6 +107,34 @@ Entity* speed_upgrade_init(Vector2D vect)
     return speedUp;
 }
 
+Entity* warp_init(Vector2D vect)
+{
+    Entity* warp = entity_new();
+    warp->id = 512;
+
+    if(!warp) { return NULL;}
+
+    warp->sprite = gf2d_sprite_load_all(
+        "images/item/chest.png",
+        32,
+        32,
+        0,
+        0);
+
+    warp->animated = 0;
+    warp->frame = 0;
+    vector2d_copy(warp->position, vect);
+    warp->shape = gfc_shape_circle(0, 0, 10);
+    warp->drawOffset = vector2d(16,16);
+    warp->think = item_think;
+    warp->type = Warp;
+    warp->currhealth = 300;
+    warp->maxhealth = 0;   
+
+    warp->info = "config/test2.level";
+    return warp;
+}
+
 
 void item_think(Entity *self)
 {
@@ -137,6 +166,13 @@ void item_think(Entity *self)
         {
             player_upgrade_speed(1);
             hud_change_message("Speed increased by 1");
+        }
+        else if (self->type == Warp)
+        {
+            Level *level;
+            level = level_load(self->info);
+            level_set_active_level(level);
+            hud_change_message("Player is warping");
         }
 
         entity_free(self);

@@ -64,6 +64,18 @@ void entity_free_all()
     return NULL;
 }
 
+void entity_clear_all()
+{
+    //allows player to live
+    int i;
+    for (i = 0; i < entity_manager.entity_max; i++)
+    {
+        if (!entity_manager.entity_list[i]._inuse) continue; //am I available?
+        if (entity_manager.entity_list[i].id == 1) continue; //Let player live
+        entity_free(&entity_manager.entity_list[i]);
+    }
+}
+
 Entity *entity_new()
 {
     int i;
@@ -132,7 +144,6 @@ void entity_think_all()
     for (i = 0; i < entity_manager.entity_max; i++)
     {
         if (!entity_manager.entity_list[i]._inuse) continue;
-        
         /*
         for (j = 0; j < entity_manager.entity_max; j++)
         {
@@ -153,7 +164,6 @@ void entity_think_all()
             }
         }
         */
-
         entity_think(&entity_manager.entity_list[i]);
     }
 

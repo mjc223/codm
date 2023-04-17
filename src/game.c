@@ -29,6 +29,7 @@ int main(int argc, char * argv[])
     const Uint8 * keys;
     Sprite *sprite;
     Entity *ent;
+    int mainMenu = 1;
 
     entity_manager_init(1024);
 
@@ -59,7 +60,25 @@ int main(int argc, char * argv[])
     gameMusic = gfc_sound_load("music/wisdom.mp3", 50.0, -1);
     gfc_sound_play(gameMusic, -1, 30.0, -1, -1);
 
-    
+    //Main Menu
+    while(mainMenu == 1)
+    {
+        SDL_PumpEvents();   // update SDL's internal event structures
+        keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
+        if (keys[SDL_SCANCODE_RETURN])mainMenu = 0;
+
+        sprite = gf2d_sprite_load_image("images/backgrounds/bg_title.png");
+
+        camera_world_snap();
+        gf2d_graphics_clear_screen();// clears drawing buffers
+        // all drawing should happen betweem clear_screen and next_frame
+            //backgrounds drawn first
+            gf2d_sprite_draw_image(sprite,vector2d(0,0));
+
+            gf2d_graphics_next_frame();// render current draw frame and skip to the next frame
+        
+        if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
+    }
 
     /*demo setup*/
     sprite = gf2d_sprite_load_image("images/backgrounds/background2.png");
@@ -90,6 +109,7 @@ int main(int argc, char * argv[])
     sword_upgrade_init(vector2d(450, 450));
     bow_upgrade_init(vector2d(500, 500));
     speed_upgrade_init(vector2d(500, 200));
+    warp_init(vector2d(600, 520));
 
     
     eye_switch_init(vector2d(100, 450), wall_trigger_init(vector2d(100, 550)));
@@ -165,6 +185,13 @@ void enemy_think(Entity *self)
         self->velocity.y = -1 * speed;
     else if (self->position.y <= 0)
         self->velocity.y = 1 * speed;
-    
+}
+
+void new_level_load(char *newLevelPath)
+{
+    Level *level;
+    level = level_load(newLevelPath);
+
+    level_set_active_level(level);
 }
 /*eol@eof*/

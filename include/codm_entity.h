@@ -7,7 +7,7 @@
 
 #include "gfc_shape.h"
 
-typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo, EyeSwitch, Living, Projectile}ItemType;
+typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo, EyeSwitch, Living, Projectile, Warp}ItemType;
 typedef enum FacingDirection{North, South, East, West}FacingDirection;
 
 typedef struct Entity_S
@@ -38,6 +38,7 @@ typedef struct Entity_S
     ItemType type;
 
     float damage;
+    char *info;
 
     void (*think) (struct Entity_S *self);
     void (*update) (struct Entity_S *self);
@@ -75,6 +76,8 @@ void entity_free(Entity *ent);
  * @brief Calls entity_free, frees all not in use entities
 */
 void entity_free_all();
+
+void entity_clear_all();
 
 /**
  * @brief Draw a single entity
