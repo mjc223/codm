@@ -335,6 +335,9 @@ void player_update(Entity *self)
     }
     else
         self->velocity.y = 0;
+
+    camera_center_at(self->position);
+
 }
 
 void player_attack2(Entity *self)
