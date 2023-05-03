@@ -16,6 +16,8 @@
 #include "codm_camera.h"
 #include "codm_item.h"
 #include "codm_level.h"
+#include "codm_npc.h"
+#include "codm_enemy.h"
 
 Sound* gameMusic;
 
@@ -116,7 +118,12 @@ int main(int argc, char * argv[])
 
     player_init(vector2d(100,100));
     hud_init();
+    npc_init(vector2d(300, 250), "This is an NPC message, hi");
 
+    turret_init(vector2d(700, 250));
+    octopus_init(vector2d(850, 300));
+    worm_init(vector2d(1500, 450));
+    bird_init(vector2d(1600, 550));
 
     /*main game loop*/
     while(!done)

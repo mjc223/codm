@@ -374,9 +374,9 @@ void player_attack2(Entity *self)
 
 }
 
-Vector2D player_get_position(Entity *self)
+Vector2D player_get_position()
 {
-    return self->position;
+    return plr->position;
 }
 
 PlayerData* player_get_pd()

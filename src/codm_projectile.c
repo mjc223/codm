@@ -1,5 +1,6 @@
 #include "codm_projectile.h"
 #include "codm_entity.h"
+#include "simple_logger.h"
 int playerOwned = 0;
 
 Entity* myParent;
@@ -67,6 +68,16 @@ void projectile_update(Entity *self)
         }
     }
     
+    /*
+    if(self->id = 57)
+    {
+        Vector2D *vect;
+        vector2d_move_towards(vect, self->position, player_get_position(), 10);
+        self->velocity.x = vect->x;
+        self->velocity.y = vect->y;
+    }
+    */
+    
     switch (self->dir)
     {
     case North:
@@ -88,6 +99,43 @@ void projectile_update(Entity *self)
     default:
         break;
     }
-
-
 }  
+
+
+Entity* projectile_new_dirless(Entity *parent, float speed, float damage, char *filename)
+{
+    Entity* proj;
+    proj = entity_new();
+    
+    if (!proj) return NULL;
+
+
+    proj->sprite = gf2d_sprite_load_all(
+        filename,
+        32,
+        32,
+        0,
+        0);
+    proj->drawOffset = vector2d(16,16);
+    vector2d_copy(proj->position, parent->position);
+
+    proj->think = projectile_think;
+    proj->update = projectile_update;
+    proj->shape = gfc_shape_circle(0, 0, 3);
+    if(parent->id = 1)
+        playerOwned = 1;
+
+
+    proj->maxhealth = 500;
+    proj->currhealth = 500;
+    
+
+    proj->id = 57;
+
+    proj->speed = speed;
+    proj->damage = damage;
+    proj->type = Projectile;
+    
+    myParent = parent;
+    
+}

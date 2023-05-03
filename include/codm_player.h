@@ -50,7 +50,7 @@ void player_attack2(Entity *self);
 
 SJson* player_save_writer();
 
-Vector2D player_get_position(Entity *self);
+Vector2D player_get_position();
 
 int player_get_curr_health();
 int player_get_max_health();
