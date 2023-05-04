@@ -196,9 +196,15 @@ void worm_think(Entity *self)
 {
     if(wormTimer == 0)
     {
+        int i = gfc_random() * 10;
+        if (i > 5)
+            i = 1;
+        else
+            i = -1;
         Vector2D vect = self->position;
-        vect.x = vect.x + gfc_random() * 100;
-        vect.y = vect.y + gfc_random() * 100;
+        
+        vect.x = vect.x + gfc_random() * 75 * i;
+        vect.y = vect.y + gfc_random() * 75 * i;
 
         Vector2D newVect = vector2d(vect.x, vect.y);
         vector2d_copy(self->position, newVect);

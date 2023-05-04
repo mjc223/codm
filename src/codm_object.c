@@ -1,6 +1,10 @@
+#include "simple_logger.h"
 #include "codm_object.h"
 
+
+int canBePushed = 1;
 Entity* pairedObj;
+
 
 Entity* eye_switch_init(Vector2D vect, Entity* trigger)
 {
@@ -83,8 +87,107 @@ Entity* wall_trigger_init(Vector2D vect)
     return wallTrigger;
 }
 
+Entity* trick_wall_init(Vector2D vect)
+{
+    Entity* trickWall = entity_new();
+    trickWall->id = 80;
+
+    if(!trickWall) { return NULL;}
+
+    trickWall->sprite = gf2d_sprite_load_all(
+        "images/trickwall.png",
+        64,
+        64,
+        0,
+        0);
+
+    trickWall->animated = 0;
+    trickWall->frame = 0;
+    vector2d_copy(trickWall->position, vect);
+    trickWall->shape = gfc_shape_circle(0, 0, 4);
+    trickWall->drawOffset = vector2d(16,16);
+    trickWall->currhealth = 300;
+    trickWall->maxhealth = 0;    
+    return trickWall;
+}
+
+Entity* lock_init(Vector2D vect)
+{
+    Entity* lock = entity_new();
+    lock->id = 80;
+
+    if(!lock) { return NULL;}
+
+    lock->sprite = gf2d_sprite_load_all(
+        "images/lock.png",
+        64,
+        64,
+        0,
+        0);
+
+    lock->animated = 0;
+    lock->frame = 0;
+    lock->think = lock_unlock;
+    vector2d_copy(lock->position, vect);
+    lock->shape = gfc_shape_circle(0, 0, 10);
+    lock->drawOffset = vector2d(16,16);
+    lock->currhealth = 300;
+    lock->maxhealth = 0;    
+    return lock;
+}
+
+Entity* push_block_init(Vector2D vect)
+{
+    Entity* pushBlock = entity_new();
+    pushBlock->id = 80;
+
+    if(!pushBlock) { return NULL;}
+
+    pushBlock->sprite = gf2d_sprite_load_all(
+        "images/Brick.png",
+        64,
+        64,
+        0,
+        0);
+
+    pushBlock->animated = 0;
+    pushBlock->frame = 0;
+    pushBlock->think = push_block_move;
+    pushBlock->dir = East;
+    vector2d_copy(pushBlock->position, vect);
+    pushBlock->shape = gfc_shape_circle(0, 0, 10);
+    pushBlock->drawOffset = vector2d(16,16);
+    pushBlock->currhealth = 300;
+    pushBlock->maxhealth = 0;
+    return pushBlock;
+}
+
+
 void wall_destroy(Entity *self)
 {
     entity_free(pairedObj);
     entity_free(self);
+}
+
+void push_block_move(Entity *self)
+{
+    if(canBePushed == 0)
+        return;
+
+    if(gfc_shape_overlap(entity_get_shape(self), player_get_shape() ))
+    {
+        Vector2D vect = self->position;
+        vect.y = vect.y + 100;
+
+        canBePushed = 0;
+        vector2d_copy(self->position, vect);
+    }
+}
+
+void lock_unlock(Entity *self)
+{
+    if(gfc_shape_overlap(entity_get_shape(self), player_get_shape() ))
+    {
+        entity_free(self);
+    }
 }

@@ -7,7 +7,7 @@
 
 #include "gfc_shape.h"
 
-typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo, EyeSwitch, Living, Projectile, Warp}ItemType;
+typedef enum ItemType{HealthUp, SpeedUp, SwordUp, BowUp, CandleUp, BombAmmo, ArrowAmmo, EyeSwitch, Living, Projectile, Warp, Key, Sword}ItemType;
 typedef enum FacingDirection{North, South, East, West}FacingDirection;
 
 typedef struct Entity_S

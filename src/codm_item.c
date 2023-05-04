@@ -135,6 +135,62 @@ Entity* warp_init(Vector2D vect)
     return warp;
 }
 
+Entity* key_init(Vector2D vect)
+{
+    Entity* key = entity_new();
+    key->id = 512;
+
+    if(!key) { return NULL;}
+
+    key->sprite = gf2d_sprite_load_all(
+        "images/item/key.png",
+        32,
+        32,
+        0,
+        0);
+
+    key->animated = 0;
+    key->frame = 0;
+    vector2d_copy(key->position, vect);
+    key->shape = gfc_shape_circle(0, 0, 10);
+    key->drawOffset = vector2d(16,16);
+    key->think = item_think;
+    key->type = Key;
+    key->currhealth = 300;
+    key->maxhealth = 0;   
+
+    key->info = "config/test2.level";
+    return key;
+}
+
+Entity* sword_init(Vector2D vect)
+{
+    Entity* sword = entity_new();
+    sword->id = 512;
+
+    if(!sword) { return NULL;}
+
+    sword->sprite = gf2d_sprite_load_all(
+        "images/item/sword.png",
+        32,
+        32,
+        0,
+        0);
+
+    sword->animated = 0;
+    sword->frame = 0;
+    vector2d_copy(sword->position, vect);
+    sword->shape = gfc_shape_circle(0, 0, 10);
+    sword->drawOffset = vector2d(16,16);
+    sword->think = item_think;
+    sword->type = Sword;
+    sword->currhealth = 300;
+    sword->maxhealth = 0;   
+
+    sword->info = "config/test2.level";
+    return sword;
+}
+
 
 void item_think(Entity *self)
 {
@@ -174,7 +230,17 @@ void item_think(Entity *self)
             level_set_active_level(level);
             hud_change_message("Player is warping");
         }
+        else if (self->type == Key)
+        {
 
+        }
+        else if (self->type == Sword)
+        {
+            if (player_get_max_health() >= 7)
+            {
+                hud_change_message("Stronger Blade Acquired");
+            }
+        }
         entity_free(self);
     }
 }

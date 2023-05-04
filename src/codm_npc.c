@@ -6,20 +6,22 @@
 
 #include "simple_logger.h"
 
-Entity* npc_init(Vector2D vect, char *info)
+char *a = "Sample NPC message";
+char *b = "Take the sword if you are strong enough";
+
+Entity* npc_init(Vector2D vect, int textIndex)
 {
     Entity* npc = entity_new();
-    npc->id = 102;
+    npc->id = textIndex;
 
     if(!npc) { return NULL;}
 
     npc->sprite = gf2d_sprite_load_all(
         "images/npc.png",
-        16,
-        16,
+        32,
+        32,
         0,
         0);
-
     npc->animated = 0;
     npc->frame = 0;
     vector2d_copy(npc->position, vect);
@@ -35,6 +37,9 @@ void npc_think(Entity *self)
 {
     if(gfc_shape_overlap(entity_get_shape(self), player_get_shape() ))
     {    
-        hud_change_message("Here's an example NPC message");
+        if(self->id == 10)
+            hud_change_message(a);
+        else
+            hud_change_message(b);
     }
 }

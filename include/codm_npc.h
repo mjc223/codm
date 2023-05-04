@@ -8,7 +8,7 @@
 #include "codm_entity.h"
 #include "codm_hud.h"
 
-Entity* npc_init(Vector2D vect, char *info);
+Entity* npc_init(Vector2D vect, int textIndex);
 
 void npc_think(Entity *self);
 

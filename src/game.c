@@ -21,7 +21,6 @@
 
 Sound* gameMusic;
 
-void enemy_think(Entity *self);
 
 int main(int argc, char * argv[])
 {
@@ -30,7 +29,6 @@ int main(int argc, char * argv[])
     Level *level;
     const Uint8 * keys;
     Sprite *sprite;
-    Entity *ent;
     int mainMenu = 1;
 
     entity_manager_init(1024);
@@ -90,35 +88,26 @@ int main(int argc, char * argv[])
     level_set_active_level(level);
 
     
-    ent = entity_new();
-    if(ent) //if creation valid
-    {
-        slog("Valid entity created"); 
-        ent->shape = gfc_shape_circle(0,0,10);
-        ent->sprite = gf2d_sprite_load_all(
-            "images/space_bug_top.png",
-            128,
-            128,
-            16,
-            0);
-        ent->animated = 1;
-        ent->think = enemy_think;
-        ent->position = vector2d(90, 90);
-        ent->drawOffset = vector2d(64,64);
-    }
 
     health_upgrade_init(vector2d(300, 300));
     sword_upgrade_init(vector2d(450, 450));
     bow_upgrade_init(vector2d(500, 500));
     speed_upgrade_init(vector2d(500, 200));
     warp_init(vector2d(600, 520));
+    key_init(vector2d(100, 100));
 
     
-    eye_switch_init(vector2d(100, 450), wall_trigger_init(vector2d(100, 550)));
+    eye_switch_init(vector2d(100, 450), wall_trigger_init(vector2d(100, 350)));
+    trick_wall_init(vector2d(100, 550));
+    lock_init(vector2d(100, 850));
+    push_block_init(vector2d(100, 650));
 
     player_init(vector2d(100,100));
     hud_init();
-    npc_init(vector2d(300, 250), "This is an NPC message, hi");
+
+    npc_init(vector2d(550, 350), 10);
+    npc_init(vector2d(775, 650), 11);
+    sword_init(vector2d(775, 750));
 
     turret_init(vector2d(700, 250));
     octopus_init(vector2d(850, 300));
@@ -171,28 +160,10 @@ int main(int argc, char * argv[])
     }
 
     level_free(level);
-    entity_free(ent);
-
     slog("---==== END ====---");
     return 0;
 }
 
-void enemy_think(Entity *self)
-{
-    if(!self) return;
-
-    float speed = gfc_random() * 2 + 1;
-
-    if(self->position.x >= 500) 
-        self->velocity.x = -1 * speed;
-    else if (self->position.x <= 0)
-        self->velocity.x = 1 * speed;
-    
-    if(self->position.y >= 300) 
-        self->velocity.y = -1 * speed;
-    else if (self->position.y <= 0)
-        self->velocity.y = 1 * speed;
-}
 
 void new_level_load(char *newLevelPath)
 {

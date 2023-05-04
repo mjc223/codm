@@ -24,4 +24,8 @@ Entity* speed_upgrade_init(Vector2D vect);
 
 Entity* warp_init(Vector2D vect);
 
+Entity* key_init(Vector2D vect);
+
+Entity* sword_init(Vector2D vect);
+
 #endif
