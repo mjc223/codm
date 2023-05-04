@@ -230,16 +230,19 @@ void item_think(Entity *self)
             level_set_active_level(level);
             hud_change_message("Player is warping");
         }
+        else if (self->type == Sword)
+        {
+            if (player_get_max_health() < 7)
+            { 
+                return;
+            }
+            else
+                hud_change_message("Stronger Blade Acquired");
+            
+        }
         else if (self->type == Key)
         {
 
-        }
-        else if (self->type == Sword)
-        {
-            if (player_get_max_health() >= 7)
-            {
-                hud_change_message("Stronger Blade Acquired");
-            }
         }
         entity_free(self);
     }

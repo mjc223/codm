@@ -17,7 +17,7 @@
 char *currMessage;
 enum InventoryOrder {ItemEmpty, ItemBomb, ItemBow, ItemCandle}; 
 
-Sprite *bomb, *bow, *candle;
+Sprite *bomb, *bow, *candle, *map, *marker;
 
 void hud_init()
 {
@@ -25,14 +25,24 @@ void hud_init()
     bow = gf2d_sprite_load_all("images/item/bow.png",16,8,1,0);
     candle = gf2d_sprite_load_all("images/item/candle.png",16,8,1,0);
 
+    map = gf2d_sprite_load_all("images/minimap.png",64,64,1,0);
+    marker = gf2d_sprite_load_all("images/marker.png",1,1,1,0);
+
     //gf2d_sprite_draw_image(bomb,vector2d(600,800));
 }
 
 void hud_update_all()
 {
+    hud_update_map();
     hud_update_player_info();
     hud_update_stats();
     hud_update_message(currMessage);
+}
+
+void hud_update_map()
+{
+    gf2d_sprite_draw_image(map,vector2d(950,650));
+    gf2d_sprite_draw_image(marker,vector2d(0,0));
 }
 
 void hud_update_player_info()
